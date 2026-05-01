@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  verifier:
+    build: .
+    ports:
+      - '3000:3000'
+    environment:
+      BITCOIN_NETWORK: mainnet
+      TRANSPORT_MODE: electrum
+      ELECTRUM_HOST: electrum.blockstream.info
+      ELECTRUM_PORT: '50002'
+      ELECTRUM_TLS: 'true'
+      ELECTRUM_REJECT_UNAUTHORIZED: 'true'
+      CONFIRMATIONS_REQUIRED: '3'
+      FILTER_CACHE_PATH: /data/filters
+      PORT: '3000'
+    volumes:
+      - filter-cache:/data/filters
+    restart: unless-stopped
+
+  verifier-testnet:
+    build: .
+    ports:
+      - '3001:3000'
+    environment:
+      BITCOIN_NETWORK: testnet
+      TRANSPORT_MODE: electrum
+      ELECTRUM_HOST: testnet.aranguren.org
+      ELECTRUM_PORT: '51002'
+      ELECTRUM_TLS: 'true'
+      ELECTRUM_REJECT_UNAUTHORIZED: 'false'
+      CONFIRMATIONS_REQUIRED: '1'
+      FILTER_CACHE_PATH: /data/filters
+      PORT: '3000'
+    volumes:
+      - filter-cache-testnet:/data/filters
+    restart: unless-stopped
+
+volumes:
+  filter-cache:
+  filter-cache-testnet:

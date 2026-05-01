@@ -1,0 +1,9 @@
+node_modules/
+dist/
+coverage/
+*.js.map
+.env
+*.log
+.DS_Store
+data/
+filter-cache/
